@@ -1,0 +1,72 @@
+@startuml
+class Passager {
+  - id : int
+  - nom : string
+  - prenom : string
+  - telephone : string
+  + getId() : int
+  + nomComplet() : string
+  + afficher() : void
+}
+
+class Vol {
+  - numero : int
+  - depart : string
+  - destination : string
+  - date : string
+  - capacite : int
+  - placesReservees : int
+  - prix : double
+  + placesRestantes() : int
+  + estComplet() : bool
+  + reserverPlace() : bool
+  + libererPlace() : void
+  + afficher() : void
+}
+
+class Reservation {
+  - id : int
+  - statut : Statut
+  + getStatut() : Statut
+  + setStatut(s : Statut) : void
+  + afficher() : void
+}
+
+class Paiement {
+  - id : int
+  - montant : double
+  - mode : string
+  + afficher() : void
+}
+
+enum Statut {
+  EnAttente
+  Payee
+  Annulee
+}
+
+class Agence {
+  - passagers : vector<Passager>
+  - vols : vector<Vol>
+  - reservations : vector<Reservation>
+  - paiements : vector<Paiement>
+  + enregistrerPassager()
+  + ajouterVol()
+  + afficherVolsDisponibles()
+  + rechercherVol()
+  + effectuerReservation()
+  + enregistrerPaiement()
+  + annulerReservation()
+  + consulterReservations()
+  + afficherInfosReservation()
+}
+
+Passager "1" -- "0..*" Reservation : effectue
+Vol "1" -- "0..*" Reservation : concerne
+Reservation "1" -- "0..1" Paiement : est réglée par
+Reservation ..> Statut
+Agence o-- "0..*" Passager
+Agence o-- "0..*" Vol
+Agence o-- "0..*" Reservation
+Agence o-- "0..*" Paiement
+@enduml
